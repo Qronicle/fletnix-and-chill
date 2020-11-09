@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <style>
+        body {font-family: "Calibri", sans-serif}
+        ul {width: 300px; height: 400px; overflow: auto; border: 1px solid #ccc; padding: 0; margin: 0}
+        li {padding: 4px 5px}
+        li:nth-child(odd) {background-color: #eee}
+    </style>
+</head>
+<body>
+
+    <ul id="messages"></ul>
+    <button onclick="sendMessage()">Send message</button>
+
+    <script>
+        const socket = new WebSocket('ws://127.0.0.1:1337');
+        socket.onopen = function(e){};
+
+        /**
+         * Receive message from server
+         */
+        socket.onmessage = function(message) {
+            addMessage('IN: ' + message.data);
+        };
+
+        /**
+         * Send Message to Server
+         */
+        function sendMessage() {
+            const message = 'Hello Server!';
+            socket.send(message);
+            addMessage('OUT: ' + message);
+        }
+
+        /**
+         * Add message to message container
+         * @param {string} message
+         */
+        function addMessage(message) {
+            document.getElementById('messages').innerHTML += '<li>' + message + '</li>';
+        }
+    </script>
+</body>
+</html>
